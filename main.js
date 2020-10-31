@@ -7,21 +7,31 @@ function main(){
   clickLike()
 }
 
+function likePost(e){
+  e.target.innerText =  FULL_HEART
+  debugger
+  return mimicServerCall('exampleURL')       
+  .then (resp =>  console.log(resp))
+  .catch (error => console.log(error)) 
+      
+}
+
+function unlikePost(e){
+  e.target.innerText =  EMPTY_HEART
+  debugger
+  return mimicServerCall('exampleURL')       
+  .then (resp =>  console.log(resp))
+  .catch (error => console.log(error))  
+
+}
+
 function clickLike(){
-  let heart = document.querySelector('.like-glyph')
-  document.addEventListener('click', function(event){
-    if (event.target === heart){      
-      if (heart.innerText === EMPTY_HEART){
-        heart.innerText =  FULL_HEART
-        debugger
-        return mimicServerCall('exampleURL')       
-        .then (resp =>  console.log(resp))
-        .catch (error => console.log(error))      
-      } else if (heart.innerText === FULL_HEART){
-        heart.innerText =  EMPTY_HEART
-        debugger
+  document.addEventListener('click', function(e){
+    if (e.target.innerText === EMPTY_HEART){ 
+      likePost(e)     
+    } else if (e.target.innerText === FULL_HEART){
+      unlikePost(e)
       }
-    }
   })
 }
 
