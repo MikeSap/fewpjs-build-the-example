@@ -2,36 +2,41 @@
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
-// Your JavaScript code goes here!
 function main(){
   clickLike()
 }
 
-function likePost(e){
-  e.target.innerText =  FULL_HEART
-  debugger
-  return mimicServerCall('exampleURL')       
-  .then (resp =>  console.log(resp))
-  .catch (error => console.log(error)) 
-      
+function flipGlyph(resp, e){
+  const heart = e.target 
+  heart.innerText =  (heart.innerText == FULL_HEART? EMPTY_HEART : FULL_HEART)
+  heart.classList.contains('activated-heart')? heart.classList.remove('activated-heart') : heart.classList.add('activated-heart')
+  console.log("Success!", resp)
 }
 
-function unlikePost(e){
-  e.target.innerText =  EMPTY_HEART
-  debugger
-  return mimicServerCall('exampleURL')       
-  .then (resp =>  console.log(resp))
-  .catch (error => console.log(error))  
+function likeError(error){
+  const modal = document.querySelector('#modal')
+    modal.classList.remove('hidden')
+    modal.innerHTML = error
+    console.log("Failed!", error)
+    setTimeout(function(){
+      modal.classList.add('hidden')}, 3000)
+}
 
+function likePost(e){  
+  return mimicServerCall('exampleURL')       
+  .then (resp => {
+    flipGlyph(resp, e)
+  })
+  .catch (error => {
+    likeError(error)
+  }) 
 }
 
 function clickLike(){
   document.addEventListener('click', function(e){
-    if (e.target.innerText === EMPTY_HEART){ 
+    if (e.target.classList.contains('like-glyph')){ 
       likePost(e)     
-    } else if (e.target.innerText === FULL_HEART){
-      unlikePost(e)
-      }
+    } 
   })
 }
 
