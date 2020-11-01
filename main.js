@@ -3,7 +3,7 @@ const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
 function main(){
-  clickLike()
+  clickLikeListener()
 }
 
 function flipGlyph(resp, e){
@@ -32,7 +32,7 @@ function likePost(e){
   }) 
 }
 
-function clickLike(){
+function clickLikeListener(){
   document.addEventListener('click', function(e){
     if (e.target.classList.contains('like-glyph')){ 
       likePost(e)     
